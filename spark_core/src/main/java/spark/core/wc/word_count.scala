@@ -14,13 +14,12 @@ object word_count {
         )
         val word_group: RDD[(String, Iterable[(String, Int)])] = word_to_one.groupBy(t => t._1)
         val word_count = word_group.map{
-            case (word, list) => {
+            case (word, list) =>
                 list.reduce(
                     (t1, t2) => {
                         (t1._1, t1._2 + t2._2)
                     }
                 )
-            }
         }
         val array: Array[(String, Int)] = word_count.collect()
         array.foreach(println)
