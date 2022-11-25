@@ -8,6 +8,7 @@ object RDD_OP_flat {
         val sc = new SparkContext(spark_conf)
         val rdd = sc.makeRDD(List(List(1, 2), List(3, 4)))
         val flat_rdd = rdd.flatMap(mess => mess)
+        flat_rdd.collect().foreach(println)
     }
 
 }
