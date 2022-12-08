@@ -47,7 +47,7 @@ object user_visit_action_prac2 {
                 val click_sum = click_map.getOrElse(pg1, 0L)
                 val rate = sum / click_sum
                 println(s"pg:${pg1} to pg:${pg2} rate is :${rate}")
-        }*/
+        }
 
         val res_data = session_data.reduceByKey(_+_).map{
             case ((pg1, pg2), sum) =>
@@ -57,6 +57,17 @@ object user_visit_action_prac2 {
         }
         val test = res_data.map(i => (i._1._1, (i._1._2, i._2))).collect()
         test.foreach(println)
+        */
+
+        val res_data = session_data.reduceByKey(_+_)
+        val res = res_data.map(
+            iter => {
+                val click_sum = click_map.getOrElse(iter._1._1, 0L)
+                val rate = iter._2 / click_sum
+                ((iter._1._1, iter._1._2), rate)
+            }
+        )
+        res.collect().foreach(println)
         sc.stop()
     }
 
